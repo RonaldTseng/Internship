@@ -1,0 +1,46 @@
+-- 1A Complete
+SELECT P.Name, OP.PropertyId, OP.OwnerId FROM dbo.Property P INNER JOIN dbo.OwnerProperty OP ON P.Id = OP.PropertyId 
+WHERE OP.OwnerId = 1426
+
+-- 1B Complete
+SELECT DISTINCT P.Name, OP.PropertyId, OP.OwnerId, PF.CurrentHomeValue FROM dbo.Property P 
+INNER JOIN dbo.OwnerProperty OP ON P.Id = OP.PropertyId
+INNER JOIN dbo.PropertyFinance PF ON P.Id = PF.PropertyId
+WHERE OP.OwnerId = 1426
+
+
+-- 1C i Complete
+SELECT P.Name AS PropertyName, OP.OwnerId, TenantProperty.PaymentAmount, TPF.Name AS PaymentFrequencies, CASE 
+WHEN TenantProperty.Id = 1348 THEN TenantProperty.PaymentAmount * DATEDIFF(WEEK, TenantProperty.StartDate, TenantProperty.EndDate)
+WHEN TenantProperty.Id = 1395 THEN TenantProperty.PaymentAmount * (DATEDIFF(WEEK, TenantProperty.StartDate, TenantProperty.EndDate)/2)
+WHEN TenantProperty.Id = 1396 THEN TenantProperty.PaymentAmount * (DATEDIFF(MONTH, TenantProperty.StartDate, TenantProperty.EndDate)+1)
+ELSE NULL 
+END AS TotalPayments
+FROM (SELECT StartDate,EndDate, PaymentAmount, PaymentFrequencyId, PropertyId, Id FROM dbo.TenantProperty) AS TenantProperty
+INNER JOIN dbo.TenantPaymentFrequencies  TPF ON TenantProperty.PaymentFrequencyId = TPF.Id
+INNER JOIN dbo.Property P ON TenantProperty.PropertyId = P.Id
+INNER JOIN dbo.OwnerProperty OP ON P.Id = OP.PropertyId
+WHERE OP.OwnerId = 1426
+
+-- 1C ii Complete
+SELECT PF.Yield, PF.PropertyId, P.Name FROM dbo.Property P 
+INNER JOIN PropertyFinance PF ON P.Id = PF.PropertyId
+INNER JOIN OwnerProperty OP ON P.ID = OP.PropertyId
+WHERE OP.OwnerId = 1426
+
+
+-- 1D Complete
+SELECT * FROM dbo.Job 
+FULL JOIN dbo.JobMedia ON dbo.Job.Id = dbo.JobMedia.JobId
+FULL JOIN dbo.JobStatus ON dbo.Job.Id = dbo.JobStatus.Id
+FULL JOIN dbo.ServiceProviderJobStatus ON dbo.Job.Id = dbo.ServiceProviderJobStatus.Id
+WHERE dbo.JobMedia.IsActive = 1
+
+-- 1E Not Complete
+SELECT P.Name, CONCAT(PE.FirstName, ' ', PE.LastName) AS TenantName, TP.PaymentAmount, TFP.Name AS PaymentFrequency
+FROM dbo.TenantProperty TP 
+INNER JOIN dbo.Person PE ON TP.TenantId = PE.Id
+INNER JOIN dbo.TenantPaymentFrequencies TFP ON TFP.Id = TP.PaymentFrequencyId
+INNER JOIN dbo.Property P ON P.Id = TP.PropertyId
+WHERE TP.PropertyId in (SELECT P.Id FROM dbo.Property P INNER JOIN dbo.OwnerProperty OP on P.Id = OP.PropertyId
+where op.OwnerId ='1426')
