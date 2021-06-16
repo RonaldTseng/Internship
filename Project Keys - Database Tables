@@ -1,0 +1,61 @@
+CREATE TABLE dbo.SuburbDetails (
+	SuburbID int IDENTITY(1,1) PRIMARY KEY,
+	PostCode int NULL,
+	Suburb nvarchar(50) NULL,
+	City nvarchar(50) NULL,
+	State nvarchar(50) NULL,
+	StateCode nvarchar(50) NULL,
+	Latitude float NULL,
+	Longitude float NULL
+);
+
+CREATE TABLE dbo.TrainStationDetails (
+	TrainstationID int IDENTITY(1,1) PRIMARY KEY,
+	TrainStation nvarchar(50) NULL,
+	StreetName nvarchar(50) NULL,
+	EntranceType nvarchar(50) NULL,
+	Latitude float NULL,
+	Longitude float NULL
+);
+
+CREATE TABLE dbo.Date (
+	Date date NULL,
+	Month nvarchar(10) NOT NULL,
+	Year int NOT NULL
+);
+
+CREATE TABLE dbo.PropertyMedianDetails (
+	PropertyID int IDENTITY(1,1) PRIMARY KEY,
+	StateName nvarchar(50) NULL,
+	StateCode nvarchar(50) NULL,
+	CityTown nvarchar(50) NULL,
+	Suburb nvarchar(50) NULL,
+	PostCode int NULL,
+	PropertyMedianValue decimal(18,0) NULL,
+	UpdatedYear int NULL,
+	UpdateMonth int NULL
+);
+
+CREATE TABLE dbo.PublicSchoolDetails (
+	SchoolID int IDENTITY(1,1) PRIMARY KEY,
+	SchoolCode int NULL,
+	SchoolName nvarchar(100) NULL,
+	SchoolAddress nvarchar(100) NULL,
+	TownSuburb nvarchar(100) NULL,
+	PostCode int NULL,
+	StudentNumber int NULL,
+	ICSEAValue int NULL,
+	LevelofSchooling nvarchar(100) NULL,
+	SelectiveSchool nvarchar(100) NULL,
+	SchoolSpecialtyType nvarchar(100) NULL,
+	SchoolSubType nvarchar(100) NULL,
+	SchoolGender nvarchar(100) NULL,
+	Phone nvarchar(100) NULL,
+	SchoolEmail nvarchar(100) NULL,
+	Latitude float NULL,
+	Longitude float NULL,
+	DateExtracted date NULL
+);
+
+	
+
